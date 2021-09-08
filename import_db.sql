@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 DROP TABLE IF EXISTS question_likes;
 DROP TABLE IF EXISTS replies;
 DROP TABLE IF EXISTS question_follows;
@@ -5,12 +7,11 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
 
 
-PRAGMA foreign_keys = ON;
 
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     fname TEXT NOT NULL,
-    lname TEXT NOT NULL,
+    lname TEXT NOT NULL
 );
 
 CREATE TABLE questions (
@@ -65,7 +66,37 @@ INSERT INTO
     questions (title, body, author_id)
 VALUES
     ('What is your favorite color?', 'Can you please tell me what your favorite color is?', 1),
-    ('How old are you?', 'Please tell me how old you are', 2)
+    ('How old are you?', 'Please tell me how old you are', 2),
     ('Who am I?', 'I don''t know my user_id. Can you tell me?', 4);
+
+INSERT INTO
+    question_follows (question_id, user_id)
+VALUES
+    (1,1),
+    (1,2),
+    (1,3),
+    (2,2),
+    (2,4),
+    (3,1),
+    (3,4);
+
+
+INSERT INTO
+    replies (question_id, parent_reply_id, user_id, body)
+VALUES
+    (1, NULL, 2, 'Green lol'),
+    (1, 1, 1, 'You are sooo wrong'),
+    (1,2,2, 'I do not think so'),
+    (2, NULL, 3, '103, how about you?');
+
+
+INSERT INTO
+    question_likes (user_id, question_id)
+VALUES
+    (1,1),
+    (2,1),
+    (4,3),
+    (1,3);
+
 
 
