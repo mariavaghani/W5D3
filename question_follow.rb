@@ -36,8 +36,45 @@ class QuestionFollow
         options.map { |option| User.new(option)}
     end
 
+    def self.followed_questions_for_user_id(user_id)
+        options = QuestionsDatabase.instance.execute(<<-SQL, user_id)
+
+        SELECT
+            question_id AS id, body, title, author_id
+        FROM
+            questions
+        JOIN
+            question_follows ON questions.id = question_follows.question_id
+        WHERE
+            question_follows.user_id = ?;
+        SQL
+        options.map { |option| Question.new(option) }
+    end
+
+    def self.most_followed_questions(n)
+        options = QuestionsDatabase.instance.execute(<<-SQL, n)
+
+        SELECT
+            *
+        FROM
+            questions
+        WHERE
+            id IN (
+                SELECT
+                    question_id
+                FROM
+                    question_follows
+                GROUP BY
+                    question_id
+                ORDER BY
+                    COUNT(*) DESC
+                LIMIT
+                    ?
+                );
+        SQL
+        options.map { |option| Question.new(option) }
+    end
+
     
 end
-
-# QuestionFollow::followed_questions_for_user_id(user_id)
 
