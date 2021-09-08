@@ -47,6 +47,10 @@ class Question
         QuestionFollow.most_followed_questions(n)
     end
 
+    def self.most_liked(n)
+        QuestionLike.most_liked_questions(n)
+    end
+
     def author
         User.find_by_id(self.author_id)
     end
@@ -67,5 +71,6 @@ class Question
     def num_likes
         QuestionLike.num_likes_for_question_id(self.id)
     end
+
 
 end

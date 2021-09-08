@@ -67,7 +67,8 @@ INSERT INTO
 VALUES
     ('What is your favorite color?', 'Can you please tell me what your favorite color is?', 1),
     ('How old are you?', 'Please tell me how old you are', 2),
-    ('Who am I?', 'I don''t know my user_id. Can you tell me?', 4);
+    ('Who am I?', 'I don''t know my user_id. Can you tell me?', 4),
+    ('What''s up?', 'Hey, how are you?', 4);
 
 INSERT INTO
     question_follows (question_id, user_id)
