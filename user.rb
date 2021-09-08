@@ -1,4 +1,5 @@
 require_relative "questions"
+require_relative "question"
 
 class User
 
@@ -41,4 +42,14 @@ class User
         options.map { |option| User.new(option) }
     end
 
+    def authored_questions
+        Question.find_by_author_id(self.id)
+    end
+
+    def authored_replies
+        Reply.find_by_user_id(self.id)
+    end
+
 end
+
+# User#authored_questions

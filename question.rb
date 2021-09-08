@@ -3,6 +3,8 @@ require_relative "questions"
 
 class Question
 
+    attr_accessor :id, :title, :body, :author_id
+
     def self.all
         data = QuestionsDatabase.instance.execute('SELECT * FROM questions')
         data.map { |datum| Question.new(datum) }
