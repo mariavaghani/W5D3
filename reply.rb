@@ -1,4 +1,5 @@
 require_relative "questions"
+require_relative "user"
 
 class Reply
 
@@ -51,6 +52,31 @@ class Reply
         @parent_reply_id = options['parent_reply_id']
         @user_id = options['user_id']
         @body = options['body']
+    end
+
+
+    def author
+        User.find_by_id(self.user_id)
+    end
+
+    def question
+        Question.find_by_id(self.question_id)
+    end
+
+    def parent_reply
+        Reply.find_by_id(self.parent_reply_id)
+    end
+
+    def child_replies
+        options = QuestionsDatabase.instance.execute(<<-SQL, self.id)
+        SELECT
+            *
+        FROM
+            replies
+        WHERE
+            parent_reply_id = ?;
+        SQL
+        options.map { |option| Reply.new(option) }
     end
 
 

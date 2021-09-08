@@ -1,4 +1,6 @@
 require_relative "questions"
+require_relative "user"
+require_relative "reply"
 
 
 class Question
@@ -39,6 +41,14 @@ class Question
         @title = options['title']
         @body = options['body']
         @author_id = options['author_id']
+    end
+
+    def author
+        User.find_by_id(self.author_id)
+    end
+
+    def replies
+        Reply.find_by_question_id(self.id)
     end
 
 
