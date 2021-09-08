@@ -2,13 +2,15 @@ require_relative "questions"
 
 class User
 
+    attr_accessor :id, :fname, :lname
+
     def self.all
         data = QuestionsDatabase.instance.execute('SELECT * FROM users')
         data.map { |datum| User.new(datum) }
     end
 
     def self.find_by_name(fname, lname)
-        QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
+        options = QuestionsDatabase.instance.execute(<<-SQL, fname, lname)
             SELECT
                 *
             FROM
@@ -16,6 +18,7 @@ class User
             WHERE
                 fname = ? AND lname = ?;
         SQL
+        options.map { |option| User.new(option) }
     end
 
     def initialize(options)
@@ -27,7 +30,7 @@ class User
     end
 
     def self.find_by_id(id)
-        QuestionsDatabase.instance.execute(<<-SQL, id)
+        options = QuestionsDatabase.instance.execute(<<-SQL, id)
         SELECT
             *
         FROM
@@ -35,6 +38,7 @@ class User
         WHERE
             id = ?;
         SQL
+        options.map { |option| User.new(option) }
     end
 
 end

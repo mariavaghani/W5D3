@@ -3,7 +3,7 @@ require_relative "questions"
 class QuestionFollow
 
     def self.find_by_id(id)
-        QuestionsDatabase.instance.execute(<<-SQL, id)
+        options = QuestionsDatabase.instance.execute(<<-SQL, id)
         SELECT
             *
         FROM
@@ -11,5 +11,6 @@ class QuestionFollow
         WHERE
             id = ?;
         SQL
+        options.map { |option| QuestionFollow.new(option) }
     end
 end
